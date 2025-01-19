@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Button from './Button'
 import Input from './Input'
+import { Backend_signUp } from '../Backend/Queries';
 
 const Login = () => {
 
@@ -11,7 +12,7 @@ const Login = () => {
 
   const handleSignUp = ()=>{
     const data = {email,password,confirmPassword};
-    console.log(data);
+    Backend_signUp(data)
   }
   const handleSignIn = ()=>{
     const data = {email,password};
