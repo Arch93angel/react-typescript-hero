@@ -1,4 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { userType } from '../types/Types';
+
+export const defaultUser:userType = {
+  id: "",
+  img: "",
+  username: "",
+  isOnline:false,
+  email: "",
+  bio: '',
+  creationTime: "",
+  lastSeen: "",
+}
 
 const initialState = {
 

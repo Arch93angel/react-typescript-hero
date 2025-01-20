@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import Button from './Button'
 import Input from './Input'
-import { Backend_signUp } from '../Backend/Queries';
+import { Backend_signIn, Backend_signUp } from '../Backend/Queries';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
@@ -9,14 +10,23 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
+  const goTo = useNavigate();
 
   const handleSignUp = ()=>{
     const data = {email,password,confirmPassword};
-    Backend_signUp(data)
+    Backend_signUp(data, setSignUpLoading, reset, goTo)
   }
   const handleSignIn = ()=>{
     const data = {email,password};
-    console.log(data);
+    Backend_signIn(data, setSignInLoading, reset, goTo);
+  }
+
+  const reset =()=>{
+    setEmail(""),
+    setPassword(""),
+    setConfirmPassword("")
   }
 
   return (
@@ -30,12 +40,12 @@ const Login = () => {
                 {!login && <Input name="confirm-password" type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/> }
                 {login ? (
                   <>
-                    <Button text='Login' onClick={handleSignIn} />
+                    <Button text='Login' onClick={handleSignIn} loading={signInLoading} />
                     <Button onClick={()=> setLogin(false)} text="Register" secondary />
                   </>
                 ):(
                   <>
-                    <Button text='Register' onClick={handleSignUp}  />
+                    <Button text='Register' onClick={handleSignUp} loading={signUpLoading}  />
                     <Button onClick={()=> setLogin(true)} text="Login" secondary />
                   </>
                 )}
